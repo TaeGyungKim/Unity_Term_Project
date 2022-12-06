@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\mapRotate.cs" />
     <Compile Include="Assets\Scripts\EventController.cs" />
     <Compile Include="Assets\Scripts\playerController.cs" />
+    <Compile Include="Assets\Scripts\scene_transition.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Fantasy Skybox FREE\Readme.txt" />

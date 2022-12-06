@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class player_move : MonoBehaviour
 {
+    playerController playerManager;
     public GameObject RotatePosition; //플레이어가 회전할 위치
+    public Transform Camera;
     private Animator animator; // 애니메이션
     private Rigidbody rigidbody;
     public float speed = 9f; //일반 이동속도
@@ -25,24 +27,33 @@ public class player_move : MonoBehaviour
     private bool isCrouched = false; //앉아있는지
     private bool isJumpUp = false; //점프 방향이 위인지
     private bool isRun = false; //달리고 있는지
+    private bool isDied = false; //죽었는지
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody>();
-        //RotatePosition = GetComponent<GameObject>();
+
+        playerManager = GetComponent<playerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        isDied = playerManager.isDie();
+        if (isDied)
+        {
+            this.transform.LookAt(Camera);
 
+        }
         playerAnimationController();
 
         mapRotationTrigger = RotatePosition.GetComponent<mapRotate>().RotateCheck();
         if (mapRotationTrigger) mapRotation = 90.0f;
         else mapRotation = 0.0f;
+
+        if (isDied) return;
 
         player_Move();
 
@@ -64,13 +75,14 @@ public class player_move : MonoBehaviour
     }
 
     //애니메이션 메소드
-    private void playerAnimationController()
+    public void playerAnimationController()
     {   
         animator.SetBool("Left", isLeft);
         animator.SetBool("Grounded", isGrounded);
         animator.SetBool("Moved", isMoved);
         animator.SetBool("Crouched", isCrouched);
         animator.SetBool("JumpUp", isJumpUp);
+        animator.SetBool("Die", isDied);
     }
 
     void player_Move()
@@ -139,22 +151,14 @@ public class player_move : MonoBehaviour
             leftRotateMax = 270 - mapRotation;
     }
 
-    void DisableMove()
+    public void DisableMove()
     {
         rigidbody.constraints = RigidbodyConstraints.FreezeAll;
     }
 
-    void EnableMove()
+    public void EnableMove()
     {
         rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    void hitPlayer(float distance)
-    {
-        if(distance < 10.0f)
-        {
-            DisableMove();
-
-        }
-    }
 }
