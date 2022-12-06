@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class player_move : MonoBehaviour
 {
-    public GameObject RotatePosition;
-    private Animator animator;
+    public GameObject RotatePosition; //플레이어가 회전할 위치
+    private Animator animator; // 애니메이션
     private Rigidbody rigidbody;
-    public float speed = 9f;
-    public float jump_power = 400;
+    public float speed = 9f; //일반 이동속도
+    public float jump_power = 400; // 점프 세기
     private int jump_count; //점프 횟수
     private float add_run_speed = 7f; //달리기 추가 속도
 
@@ -137,5 +137,24 @@ public class player_move : MonoBehaviour
             leftRotateMax = 90 - mapRotation;
         else if (moving < 0)
             leftRotateMax = 270 - mapRotation;
+    }
+
+    void DisableMove()
+    {
+        rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    void EnableMove()
+    {
+        rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
+    void hitPlayer(float distance)
+    {
+        if(distance < 10.0f)
+        {
+            DisableMove();
+
+        }
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    public GameObject enemy;
-    public GameObject eventPosition;
+    private GameObject enemy;
+    private GameObject eventPosition;
     private bool isSpawnBoss = false;
     float distance = 0.0f;
     // Start is called before the first frame update
