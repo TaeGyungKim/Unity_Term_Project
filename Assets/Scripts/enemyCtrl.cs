@@ -32,7 +32,9 @@ public class enemyCtrl : MonoBehaviour
         
         //플레이어를 바라본다
         //this.transform.LookAt(look.transform);
-        //플레이어로 이동
+        
+        //바닥에 충둘 후 플레이어로 이동
+        if(spawnCheck)
         this.transform.position =
             Vector3.MoveTowards(this.transform.position, unito.position, speed * Time.deltaTime);
 
@@ -55,7 +57,11 @@ public class enemyCtrl : MonoBehaviour
         //착지할때마다 충격파 && 폭발 파티클, 사운드 출력
         GetComponent<ParticleSystem>().Play();
 
-        
+        AudioSource.PlayClipAtPoint(collision_sound, this.transform.position);
+        //지속적으로 점프한다.
+        rigidbody.AddForce(0, jumpPower, 0);
+
+
 
         int num = Random.Range(1, 6);
 
@@ -69,9 +75,7 @@ public class enemyCtrl : MonoBehaviour
             Instantiate(explosion_effect, randomPosition, this.transform.rotation);
         }
 
-        AudioSource.PlayClipAtPoint(collision_sound, this.transform.position);
-        //지속적으로 점프한다.
-        rigidbody.AddForce(0, jumpPower, 0);
+ 
     }
 
     public float Distance()

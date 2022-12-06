@@ -5,12 +5,18 @@ using UnityEngine;
 public class EventController : MonoBehaviour
 {
 
-    private bool isSpawnEasterEgg;
-    private bool isSpawnBoss;
-    private bool isEnding;
+    private bool isSpawnEasterEgg =false;
+    private bool isSpawnBoss =false;
+    private bool isEnding =false;
     private GameObject easterEgg;
     private GameObject enemy;
     private GameObject eventCheck;
+    private GameObject gameManager;
+
+    private GameObject attentionText;
+    private GameObject cautionText;
+
+    float time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +29,32 @@ public class EventController : MonoBehaviour
 
         //보스 이벤트 발생 확인
         eventCheck = GameObject.Find("BossEventPosition");
+
+        gameManager = GameObject.Find("GameManager");
+
+        attentionText = GameObject.Find("Canvas").transform.Find("attention").gameObject;
+        cautionText = GameObject.Find("Canvas").transform.Find("caution").gameObject;
+
+    }
+
+    private void Update()
+    {
+        if (isSpawnEasterEgg)
+        {
+
+            if (time < 3.0f)
+            {
+                time += Time.deltaTime;
+                gameManager.GetComponent<CameraSetting>().changeToCamEvent();
+                    attentionText.SetActive(true);
+                }
+            else
+            {
+                attentionText.SetActive(false);
+                gameManager.GetComponent<CameraSetting>().changeToCam();
+            }
+                
+        }
     }
 
     //이벤트 위치에서 트리거

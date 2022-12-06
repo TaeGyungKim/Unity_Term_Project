@@ -10,6 +10,9 @@ public class BossEvent : MonoBehaviour
     private GameObject easterEgg;
     private GameObject enemy;
     private GameObject eventCheck;
+    private GameObject gameManager;
+    private GameObject cautionText;
+    float time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,19 +22,36 @@ public class BossEvent : MonoBehaviour
         //(400,0,130) 자리에서 보스전 시작
         enemy = GameObject.Find("EnemySpawn").transform.Find("Enemy").gameObject;
         eventCheck = GameObject.Find("EventPosition");
+        gameManager = GameObject.Find("GameManager");
+        cautionText = GameObject.Find("Canvas").transform.Find("caution").gameObject;
     }
 
     private void Update()
     {
         if (isSpawnBoss)
         {
+            
             isDisableEasterEgg = enemy.GetComponent<enemyCtrl>().SpawnCheck();
+
+            if (time < 5.0f)
+            {
+                cautionText.SetActive(true);
+                time += Time.deltaTime;
+                gameManager.GetComponent<CameraSetting>().changeToCamBoss();
+            }
+            else
+            {
+                cautionText.SetActive(false);
+                gameManager.GetComponent<CameraSetting>().changeToCam();
+            }
+                
         }
 
         if (isDisableEasterEgg)
         {
             easterEgg.SetActive(false);
         }
+
     }
 
     //보스 이벤트 위치에서 트리거 발동

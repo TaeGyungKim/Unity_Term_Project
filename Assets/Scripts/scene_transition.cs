@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class scene_transition : MonoBehaviour
 {
-    /*   public void sceneEndTransition()
+       public void sceneToStartTransition()
    {
-       SceneManager.LoadScene("end", LoadSceneMode.Single);
-   }*/
+       SceneManager.LoadScene("init", LoadSceneMode.Single);
+   }
+
     public void sceneTransition()
     {
 
